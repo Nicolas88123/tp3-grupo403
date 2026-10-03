@@ -1,9 +1,10 @@
 import clase
 
-
-def es_alt_com(com):
-    # TP3 AGREGADO: Alta complejidad  'A'
+def es_alt_complejidad(com):
+    # cambiamos lo de alta complejidad del tp2 
+    # TP3 Alta complejidad 'A'
     return com.strip().upper() == "A"
+    #de vuelve true o false si cumple la condición
 
 
 def cal_por_nor(icd10):
@@ -62,9 +63,9 @@ def alg_3(mnt_bas, icd10, es_alt):
     return mnt_bas + mnt_ext
 
 
-# TP3 AGREGADO: Monto final
+# TP3 Monto final
 def cal_mnt_fin(mnt_bas, icd10, comp, ide_alg):
-    es_alt = es_alt_com(comp)
+    es_alt = es_alt_complejidad(comp)
 
     if ide_alg == 1:
         mnt = alg_1(mnt_bas, icd10, es_alt)
@@ -105,7 +106,7 @@ def opcion1():
             comp = par[5].strip()
             ide_alg = int(par[6].strip())  # TP3 AGREGADO
 
-            if es_alt_com(comp):
+            if es_alt_complejidad(comp):
                 can_alt_com += 1
                 if can_alt_com == 5:
                     qui_ape = ape
@@ -156,7 +157,7 @@ def opcion2(vec):
     dni_may = None
 
     for obj in vec:
-        if es_alt_com(obj.complejidad):
+        if es_alt_complejidad(obj.complejidad):
             if obj.mnt_final > may_mnt:
                 may_mnt = obj.mnt_final
                 dni_may = obj.dni
