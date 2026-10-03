@@ -286,3 +286,8 @@ def main():
 # directamente (y no cuando se importa desde otro modulo)
 if __name__ == "__main__":
     main()
+    
+#dejo comentado lo del TRATAMIENTO REGULAR en caso de que lo pidan
+"""def es_regular_tratam(com):
+    # Comprueba estrictamente si el carácter es 'R'
+    return com.strip().upper() == "R" """
