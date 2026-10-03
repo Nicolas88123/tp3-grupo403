@@ -1,4 +1,4 @@
-import jenn_clase
+import jenni_clase
 
 def es_alt_complejidad(com):
     # cambiamos lo de alta complejidad del tp2 
