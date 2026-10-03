@@ -179,20 +179,21 @@ def mos_men():
 
 def principal():
     vec_tra = []
-    ope = -1
+    opcion = -1
 
-    while ope != 0:
+    while opcion != 0:
         mos_men()
-        ope_inp = input("Ingrese opción:")
+        opcion_inp = input("Ingrese opción:")
 
-        if ope_inp.isdigit() or (ope_inp.startswith("-") and ope_inp[1:].isdigit()):
-            ope = int(ope_inp)
+        # verificamos si lo que ingresso el usuario por teclado es la opción "0" "1" o "2"
+        if opcion_inp == "0" or opcion_inp == "1" or opcion_inp == "2":
+            # Si es una de esas opciones convierte el texto string a número entero (int)
+            opcion = int(opcion_inp)
         else:
             continue
-
-        if ope == 1:
+        if opcion == 1:
             vec_tra = opcion1()
-        elif ope == 2:
+        elif opcion == 2:
             opcion2(vec_tra)
 
 
