@@ -103,12 +103,17 @@ def opcion1():
             ape = par[2].strip()
             icd10 = par[3].strip()
             mnt_bas = float(par[4].strip())
+            
             comp = par[5].strip()
             ide_alg = int(par[6].strip())  # TP3 AGREGADO
-
+            # R2
+            #si el tratamiento del CSV es de alta complejidad A
             if es_alt_complejidad(comp):
+                #Si es de alta complejidad cuenta + 1
                 can_alt_com += 1
+                # Si es justo el quinto tratamiento de alta complejidad que encontramos:
                 if can_alt_com == 5:
+                    #Guardamos el apellido del paciente para el resultado r1.2
                     qui_ape = ape
 
             # TP3 AGREGADO: Objeto Tratamiento ruway
@@ -156,12 +161,16 @@ def opcion2(vec):
     may_mnt = -1.0
     dni_may = None
 
+    # Recorremos cada objeto Tratamiento en el vector
     for obj in vec:
+        #verificamos solo los tratamientos que son de alta complejidad A
         if es_alt_complejidad(obj.complejidad):
+            # Buscamos el mayor monto final entre ellos
             if obj.mnt_final > may_mnt:
                 may_mnt = obj.mnt_final
                 dni_may = obj.dni
 
+    # Guardamos el DNI encontrado para el resultado r2.4
     r2_4 = dni_may
 
     print("r.2.1:", r2_1)
@@ -183,12 +192,12 @@ def principal():
 
     while opcion != 0:
         mos_men()
-        opcion_inp = input("Ingrese opción:")
+        opcion_ing = input("Ingrese opción:")
 
         # verificamos si lo que ingresso el usuario por teclado es la opción "0" "1" o "2"
-        if opcion_inp == "0" or opcion_inp == "1" or opcion_inp == "2":
+        if opcion_ing == "0" or opcion_ing == "1" or opcion_ing == "2":
             # Si es una de esas opciones convierte el texto string a número entero (int)
-            opcion = int(opcion_inp)
+            opcion = int(opcion_ing)
         else:
             continue
         if opcion == 1:
