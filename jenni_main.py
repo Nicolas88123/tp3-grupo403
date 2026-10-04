@@ -1,16 +1,21 @@
 import clase
+import os
 
 def es_alt_complejidad(com):
-    # cambiamos lo de alta complejidad del tp2 
+    # cambiamos lo de alta complejidad del tp2
     # TP3 Alta complejidad 'A'
     return com.strip().upper() == "A"
-    #de vuelve true o false si cumple la condición
+    # de vuelve true o false si cumple la condición
 
 
 def cal_por_nor(icd10):
     if "." in icd10:
-        par = icd10.split(".")
-        if len(par) > 1 and par[1].isdigit():
+        par = icd10.split(".")# crea una lista de dos indices [0,1]
+        if len(par) > 1 and par[1] != "":
+            # Revisamos que TODOS sean dígitos
+            for c in par[1]:
+                if not ('0' <= c <= '9'):  # --> comparamos con caracteres
+                    return 0
             return int(par[1])
     return 0
 
@@ -25,7 +30,7 @@ def alg_1(mnt_bas, icd10, es_alt):
         if es_alt and icd10[0].upper() != "U":
             sum_fij = mnt_bas / 2.0
 
-    mnt_ext = (mnt_bas * por_ext / 100.0) + sum_fij
+    mnt_ext = mnt_bas * (por_ext / 100.0) + sum_fij
     return mnt_bas + mnt_ext
 
 
@@ -40,7 +45,7 @@ def alg_2(mnt_bas, icd10, es_alt):
         else:
             por_ext = 15
 
-    return mnt_bas + (mnt_bas * por_ext / 100.0)
+    return mnt_bas + mnt_bas * (por_ext / 100.0)
 
 
 # TP3 AGREGADO: Algoritmo ID 3
@@ -80,11 +85,18 @@ def cal_mnt_fin(mnt_bas, icd10, comp, ide_alg):
     return round(mnt, 2)
 
 
-#opcion 1
+# opcion 1
 def opcion1():
+
     vec = []
     can_alt_com = 0
     qui_ape = "No hay suficientes tratamientos de alta complejidad."
+
+    #validacion de la existencia del archivo
+    nombre_archivo = "tratamientos.csv"
+    if not os.path.exists(nombre_archivo):
+        print(f"Error: El archivo {nombre_archivo} no fue encontrado.")
+        return  vec # o salís de la función
 
     arc = open("tratamientos.csv", "r")
 
@@ -103,17 +115,17 @@ def opcion1():
             ape = par[2].strip()
             icd10 = par[3].strip()
             mnt_bas = float(par[4].strip())
-            
+
             comp = par[5].strip()
             ide_alg = int(par[6].strip())  # TP3 AGREGADO
             # R2
-            #si el tratamiento del CSV es de alta complejidad A
+            # si el tratamiento del CSV es de alta complejidad A
             if es_alt_complejidad(comp):
-                #Si es de alta complejidad cuenta + 1
+                # Si es de alta complejidad cuenta + 1
                 can_alt_com += 1
                 # Si es justo el quinto tratamiento de alta complejidad que encontramos:
                 if can_alt_com == 5:
-                    #Guardamos el apellido del paciente para el resultado r1.2
+                    # Guardamos el apellido del paciente para el resultado r1.2
                     qui_ape = ape
 
             # TP3 AGREGADO: Objeto Tratamiento ruway
@@ -140,13 +152,18 @@ def opcion2(vec):
         sum_dif += (obj.mnt_final - obj.mnt_base)
     r2_1 = round(sum_dif / len(vec), 2)
 
-    # r.2.2 y r.2.3: Letra tratamiento
+    # r.2.2 y r.2.3: Letra más frecuente
+    letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     con_let = [0] * 26
+
     for obj in vec:
         let = obj.icd10[0].upper()
-        if "A" <= let <= "Z":
-            idx = ord(let) - ord("A")
-            con_let[idx] += 1
+        # Buscamos la posición de la letra en la cadena
+        pos = 0
+        while pos < 26 and letras[pos] != let:
+            pos += 1
+        if pos < 26:  # letra válida
+            con_let[pos] += 1
 
     max_can = -1
     idx_max = -1
@@ -155,29 +172,26 @@ def opcion2(vec):
             max_can = con_let[i]
             idx_max = i
 
-    r2_2 = chr(ord("A") + idx_max)
+    # Recuperamos la letra directamente desde la cadena
+    r2_2 = letras[idx_max]
     r2_3 = max_can
 
+    # r.2.4: DNI del mayor monto final entre alta complejidad
     may_mnt = -1.0
     dni_may = None
 
-    # Recorremos cada objeto Tratamiento en el vector
     for obj in vec:
-        #verificamos solo los tratamientos que son de alta complejidad A
         if es_alt_complejidad(obj.complejidad):
-            # Buscamos el mayor monto final entre ellos
             if obj.mnt_final > may_mnt:
                 may_mnt = obj.mnt_final
                 dni_may = obj.dni
 
-    # Guardamos el DNI encontrado para el resultado r2.4
     r2_4 = dni_may
 
     print("r.2.1:", r2_1)
     print("r.2.2:", r2_2)
     print("r.2.3:", r2_3)
     print("r.2.4:", r2_4)
-
 
 def mos_men():
     print("===== SISTEMA DE GESTION DE TRATAMIENTOS =====")
@@ -192,17 +206,13 @@ def principal():
 
     while opcion != 0:
         mos_men()
-        opcion_ing = input("Ingrese opción:")
+        opcion_ing = int(input("Ingrese opción: "))
 
-        # verificamos si lo que ingresso el usuario por teclado es la opción "0" "1" o "2"
-        if opcion_ing == "0" or opcion_ing == "1" or opcion_ing == "2":
-            # Si es una de esas opciones convierte el texto string a número entero (int)
-            opcion = int(opcion_ing)
-        else:
-            continue
-        if opcion == 1:
+        if opcion_ing == 0:
+            break
+        elif opcion_ing == 1:
             vec_tra = opcion1()
-        elif opcion == 2:
+        elif opcion_ing == 2:
             opcion2(vec_tra)
 
 
