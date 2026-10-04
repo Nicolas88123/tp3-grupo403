@@ -194,7 +194,6 @@ def opcion2(vec):
     print("r.2.4:", r2_4)
 
 def mos_men():
-    print("===== SISTEMA DE GESTION DE TRATAMIENTOS =====")
     print("1 - Cargar tratamientos")
     print("2 - Mostrar resultados")
     print("0 - Salir")
