@@ -25,7 +25,9 @@ def alg_1(mnt_bas, icd10, es_alt):
     sum_fij = 0.0
     if mnt_bas <= 60000:
         por_ext = 0
-    else:
+    #verificamos que efectivamente monto base sea mayor a 60mil
+    if mnt_bas > 60000:
+        #porcentaje extra es igual al calculo normal
         por_ext = cal_por_nor(icd10)
         if es_alt and icd10[0].upper() != "U":
             sum_fij = mnt_bas / 2.0
@@ -34,7 +36,7 @@ def alg_1(mnt_bas, icd10, es_alt):
     return mnt_bas + mnt_ext
 
 
-# TP3 AGREGADO: Algoritmo ID 2
+# TP3 Tabla de algoritmo de calculo monto final 2| cuando icd10 esta entre A y P Algoritmo ID 2
 def alg_2(mnt_bas, icd10, es_alt):
     let = icd10[0].upper()
     if "A" <= let <= "P":
@@ -55,6 +57,7 @@ def alg_3(mnt_bas, icd10, es_alt):
         mnt_ext += mnt_bas * 0.30
 
     let = icd10[0].upper()
+    #aquiii en el enunciado dice ENTRE no incluidos quizas hay que quitar el =
     if "A" <= let <= "L":
         mnt_ext += 20000.0
     elif "M" <= let <= "P":
@@ -177,16 +180,17 @@ def opcion2(vec):
     r2_3 = max_can
 
     # r.2.4: DNI del mayor monto final entre alta complejidad
-    may_mnt = -1.0
-    dni_may = None
+    may_mnt = -1
+    dni_mayor = None
 
     for obj in vec:
         if es_alt_complejidad(obj.complejidad):
-            if obj.mnt_final > may_mnt:
+            if int(obj.mnt_final) > may_mnt:
                 may_mnt = obj.mnt_final
-                dni_may = obj.dni
+                dni_mayor = obj.dni
 
-    r2_4 = dni_may
+
+    r2_4 = dni_mayor
 
     print("r.2.1:", r2_1)
     print("r.2.2:", r2_2)
