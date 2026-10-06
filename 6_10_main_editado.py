@@ -82,32 +82,28 @@ def alg_3(mnt_bas, icd10, es_alt):
     return mnt_bas + mnt_ext
 
 
-# TP1/TP2 AGREGADO: Algoritmo Normal (Cálculo original del TP1/TP2 con adicionales fijos)
+# TP1/TP2 lo que nos faltaba algoritmo normal (calculo original del TP1yTP2 con adicionales fijos)
 def alg_normal_tp1(mnt_bas, icd10, comp):
     es_alt = es_alt_complejidad(comp)
     let = icd10[0].upper()
-
-
-    # TP1: Adicionales fijos según grupo de letras
+    # Regla del TP1: base + 25000 fijos + monto según la letra
+    adi_letra = 25000
+    # TP1: Adicionales fijos segun grupo de letras
     if "A" <= let <= "L":
-        adi_letra = 25000.0
+        adi_letra += 25000.0
     elif let == "U":
-        adi_letra = 100000.0
+        adi_letra += 100000.0
     else:  # M a Z excluyendo U
-        adi_letra = 40000.0
+        adi_letra += 40000.0
 
     monto_base_con_letra = mnt_bas + adi_letra
     porcentaje = cal_por_nor(icd10)
     porcentaje_total = (monto_base_con_letra / 100.0) * porcentaje
     subtotal = monto_base_con_letra + porcentaje_total
-
-    # TP1: Si es Alta Complejidad ('A') se suma el adicional por letra nuevamente
-    
-    if es_alt:
-        subtotal += adi_letra
-
+    #TP1 Si es Alta Complejidad 'A' se suma el adicional por letra nuevamente ESTO LO QUITE 
+    #if es_alt:
+     #   subtotal += adi_letra
     return subtotal
-
 
 # TP3 Monto final
 def cal_mnt_fin(mnt_bas, icd10, comp, ide_alg):
