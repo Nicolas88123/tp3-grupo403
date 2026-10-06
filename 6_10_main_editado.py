@@ -8,7 +8,6 @@ def es_alt_complejidad(com):
     return com.strip().upper() == "A"
     # de vuelve true o false si cumple la condición
 
-
 def cal_por_nor(icd10):
     if "." in icd10:
         par = icd10.split(".")  # crea una lista de dos indices [0,1]
@@ -24,9 +23,11 @@ def cal_por_nor(icd10):
 # TP1/TP2 AGREGADO: Obtener bloque numérico ICD10 para algoritmo 3
 def obtener_bloque(icd10):
     if "." in icd10:
-        parte_inicial = icd10.split(".")[0]
-        bloque_str = parte_inicial[1:]
-        if bloque_str.isdigit():
+        bloque_str = icd10.split(".")[0][1:]
+        if bloque_str != "":
+            for c in bloque_str:
+                if not ('0' <= c <= '9'):
+                    return 0
             return int(bloque_str)
     return 0
 
@@ -84,7 +85,7 @@ def alg_3(mnt_bas, icd10, es_alt):
 
 # TP1/TP2 lo que nos faltaba algoritmo normal (calculo original del TP1yTP2 con adicionales fijos)
 def alg_normal_tp1(mnt_bas, icd10, comp):
-    es_alt = es_alt_complejidad(comp)
+    #es_alt = es_alt_complejidad(comp)
     let = icd10[0].upper()
     # Regla del TP1: base + 25000 fijos + monto según la letra
     adi_letra = 25000
@@ -133,7 +134,7 @@ def opcion1():
     nombre_archivo = "tratamientos.csv"
     if not os.path.exists(nombre_archivo):
         print(f"Error: El archivo {nombre_archivo} no fue encontrado.")
-        return vec  # o salís de la función
+        return vec  # o se sale de la funcion
 
     arc = open("tratamientos.csv", "r")
 
