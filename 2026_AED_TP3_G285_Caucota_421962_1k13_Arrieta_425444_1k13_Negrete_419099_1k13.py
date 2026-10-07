@@ -8,6 +8,7 @@ def es_alt_complejidad(com):
     return com.strip().upper() == "A"
     # de vuelve true o false si cumple la condición
 
+#para sacar el tratamiento
 def cal_por_nor(icd10):
     if "." in icd10:
         par = icd10.split(".")  # crea una lista de dos indices [0,1]
