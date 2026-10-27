@@ -31,7 +31,7 @@ def adicional_por_letra(letra):
     if letra == "U":
         return 100000
     if letra_entre(letra, "A", "L"):
-        return 25000    
+        return 25000
     return 40000
 
 
@@ -77,9 +77,9 @@ def algoritmo_3(monto_base, icd, complejidad):
     elif letra_entre(letra, "M", "P"):
         monto_extra += 15000 + 5000 * obtener_bloque(icd)
     else:
-        monto_extra += monto_base * 10 / 100
+        monto_extra += monto_base * 10 / 100        
     if monto_extra > 60000:
-        monto_extra = 60000
+        monto_extra = 60000        
     return monto_base + monto_extra
 
 def calculo_tp1(monto_base, icd):
