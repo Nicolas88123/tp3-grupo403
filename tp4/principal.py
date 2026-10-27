@@ -31,7 +31,7 @@ def adicional_por_letra(letra):
     if letra == "U":
         return 100000
     if letra_entre(letra, "A", "L"):
-        return 25000
+        return 25000    
     return 40000
 
 
@@ -42,17 +42,13 @@ def subtotal_normal(monto_base, icd):
 def porcentaje_extra_normal(monto_base, icd):
     return subtotal_normal(monto_base, icd) * obtener_numero_enfermedad(icd) / 100
 
-
-def calculo_tp1(monto_base, icd):
-    return subtotal_normal(monto_base, icd) + porcentaje_extra_normal(monto_base, icd)
-
-
 def algoritmo_1(monto_base, icd, complejidad):
     letra = obtener_letra(icd)
-    porcentaje_extra = 0
     suma_fija = 0
-    if monto_base > 60000:
-        porcentaje_extra = porcentaje_extra_normal(monto_base, icd)
+    if monto_base <= 60000:
+        porcentaje_extra = 0
+    else:
+        porcentaje_extra = monto_base * obtener_numero_enfermedad(icd) / 100
         if complejidad == "A" and letra != "U":
             suma_fija = monto_base / 2
     return monto_base + porcentaje_extra + suma_fija
@@ -61,11 +57,11 @@ def algoritmo_1(monto_base, icd, complejidad):
 def algoritmo_2(monto_base, icd, complejidad):
     letra = obtener_letra(icd)
     if letra_entre(letra, "A", "P"):
-        porcentaje_extra = porcentaje_extra_normal(monto_base, icd)
+        porcentaje_extra = monto_base * obtener_numero_enfermedad(icd) / 100
     else:
         if complejidad == "A":
             n = obtener_numero_enfermedad(icd) * 2
-            porcentaje_extra = subtotal_normal(monto_base, icd) * n / 100
+            porcentaje_extra = monto_base * n / 100
         else:
             porcentaje_extra = monto_base * 15 / 100
     return monto_base + porcentaje_extra
@@ -86,6 +82,12 @@ def algoritmo_3(monto_base, icd, complejidad):
         monto_extra = 60000
     return monto_base + monto_extra
 
+def calculo_tp1(monto_base, icd):
+    letra = obtener_letra(icd)
+    adicional_letra = 25000 + adicional_por_letra(letra)
+    subtotal = monto_base + adicional_letra
+    porcentaje = subtotal * obtener_numero_enfermedad(icd) / 100
+    return subtotal + porcentaje
 
 def calcular_monto_final(trat):
     if trat.id_algoritmo == 1:
@@ -222,7 +224,8 @@ def mostrar_resultados(afiliados, tratamientos):
     cant_topes = 0
     cant_no_afiliados = 0
 
-    # Un acumulador por obra social (índices 1..20; el 0 no se usa)
+    # Un acumulador por obra social (índices 1..20; 
+    # el 0 no se usa)
     cubierto_por_os = [0] * 21
 
     mayor_no_cubierto = -1
